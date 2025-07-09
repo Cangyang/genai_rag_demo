@@ -1,0 +1,11 @@
+openai==1.86.0
+pandas==2.2.2
+numpy==1.26.4
+pyyaml==6.0.1
+pdfplumber==0.11.5
+PyPDF2==3.0.1
+faiss-cpu==1.11.0
+streamlit==1.37.1
+langchain_openai==0.3.22
+langchain-community==0.3.25
+dashscope==1.23.4

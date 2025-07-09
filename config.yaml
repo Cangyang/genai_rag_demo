@@ -1,0 +1,10 @@
+model:
+  base_url: https://dashscope.aliyuncs.com/compatible-mode/v1
+  name_list:
+    - deepseek-r1
+    - qwen-plus
+  embedding: text-embedding-v2
+
+cache:
+  win_file_path: D:/var/app
+  linux_file_path: /var/app
