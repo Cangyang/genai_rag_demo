@@ -5,9 +5,6 @@ It offers a simple straight webui use [streamlit](https://streamlit.io/), combin
 
 This repository contains **Dockerfile** of [Python](https://www.python.org/) for [Docker](https://www.docker.com/)'s [automated build](https://hub.docker.com/_/python/) published to the public [Docker Hub Registry](https://registry.hub.docker.com/).
 
-### Config
-Edit <b>config.yaml</b> and input values for <code>base_url</code>, <code>api_key</code>.
-
 
 ### Launching 
 
@@ -26,7 +23,7 @@ streamlit run genai_tool.py
 ```bash
 cd genai_rag_demo
 docker build -t genai-rag-demo .
-docker run -p 8501:8501 genai-rag-demo bash start.bash
+docker run -p 8501:8501 -e api_key=xx-xxxxxxxxxxxx genai-rag-demo:latest bash start.bash
 ```
 
 

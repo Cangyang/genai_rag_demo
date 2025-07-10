@@ -1,0 +1,67 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                echo "0. Checkout Stage"
+                git url: 'https://github.com/Cangyang/genai_rag_demo.git', branch: "${params.BRANCH_NAME}"
+            }
+        }
+
+
+        stage('Init') {
+            steps {
+                script {
+                    echo "1. Prepare Stage"
+                    img_name = "genai-rag-demo"
+                    echo "img-name: ${img_name}"
+                    script {
+                        build_tag = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
+                        if (env.BRANCH_NAME != 'master' && env.BRANCH_NAME != null) {
+                            build_tag = "${env.BRANCH_NAME}-${build_tag}"
+                        }
+                        echo "build_tag: ${build_tag}"
+                    }
+                    
+                }
+                
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo "2. Test Stage"
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                echo "3. Build Stage"
+                sh "docker build -t ${img_name}:${build_tag} ."
+            }
+        }
+
+        stage('Docker Image Tag') {
+            steps {
+                echo "4. Tag Stage"
+                script {
+                    sh "docker tag ${img_name}:${build_tag} registry.cn-hangzhou.aliyuncs.com/yangtengfei/md:${build_tag}"
+                }
+            }
+            
+        }
+
+        stage('Docker Image Push') {
+            steps {
+                echo "5. Push Stage"
+                withCredentials([usernamePassword(credentialsId: 'docker_repo_auth', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                    sh "docker login -u ${USERNAME}  -p ${PASSWORD} registry.cn-hangzhou.aliyuncs.com"
+                    sh "docker push registry.cn-hangzhou.aliyuncs.com/yangtengfei/md:${build_tag}"
+                }
+            }
+        }
+    }
+}
+
