@@ -14,6 +14,7 @@ This repository contains **Dockerfile** of [Python](https://www.python.org/) for
 ```bash
 cd genai_rag_demo
 pip install -r requirements.txt
+export api_key=xx-xxxxxxxxxxxx
 streamlit run genai_tool.py
 ```
 
